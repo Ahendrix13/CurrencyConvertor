@@ -1,2 +1,2 @@
 # CurrencyConvertor
- Convertor
+ Real time currency convertor
