@@ -1,0 +1,68 @@
+import tkinter as tk 
+from tkinter import *
+from forex_python.converter import CurrencyRates
+import tkinter.messagebox
+
+#GUI
+root = tk.Tk()
+root.title("Currency exchange rates comparison")
+root.configure(background='#e6e5e5')
+root.geometry("700x400")
+
+#create top frame
+tops = tk.Frame(root, bg = '#e6e5e5', pady=2, width=1850, height=100, relief="ridge")
+tops.grid(row=0, column=0)
+
+# Create label for header
+headlabel = tk.Label(tops, font=('lato black', 13, 'bold'), text='Currency exchange rates comparison:',
+                    bg='#e6e5e5', fg='black')
+headlabel.grid(row=1, column=0, sticky=W)
+
+# Create label and entry fields for base currency
+base_currency_label = tk.Label(root, font=('lato black', 15, 'bold'), text="Base currency:", bg="#e6e5e5", fg="black")
+base_currency_label.grid(row=2, column=0, sticky=W)
+base_currency_entry = tk.Entry(root)
+base_currency_entry.grid(row=2, column=0, ipadx=28, sticky=E)
+
+# Create label and entry fields for comparison currencies
+comparison_currencies_label = tk.Label(root, font=('lato black', 15, 'bold'), text="Comparison currencies:", bg="#e6e5e5", fg="black")
+comparison_currencies_label.grid(row=3, column=0, sticky=W)
+comparison_currencies_entry = tk.Entry(root)
+comparison_currencies_entry.grid(row=3, column=0, ipadx=28, sticky=E)
+
+# Create label and text field for displaying results
+results_label = tk.Label(root, font=('lato black', 15, 'bold'), text="Results:", bg="#e6e5e5", fg="black")
+results_label.grid(row=4, column=0, sticky=W)
+results_text = tk.Text(root, height=10, width=60)
+results_text.grid(row=5, column=0, padx=10, pady=10)
+
+# Function for conversion
+def get_exchange_rates():
+    base_currency = base_currency_entry.get()
+    comparison_currencies = comparison_currencies_entry.get()
+    comparison_currencies_list = comparison_currencies.split(',')
+    c = CurrencyRates()
+
+    if not base_currency:
+        tkinter.messagebox.showinfo("Error !!", "Base currency not entered. Please enter a valid currency code.")
+    elif not comparison_currencies:
+        tkinter.messagebox.showinfo("Error !!", "Comparison currencies not entered. Please enter one or more currency codes separated by comma.")
+    else:
+        results_text.delete('1.0', END)
+        results_text.insert(END, f'Exchange rates for {base_currency}:\n')
+        for currency in comparison_currencies_list:
+            exchange_rate = c.get_rate(base_currency, currency)
+            results_text.insert(END, f'{currency}: {exchange_rate}\n')
+
+# Clearing input/output fields
+def clear_all():
+    base_currency_entry.delete(0, tk.END)
+    comparison_currencies_entry.delete(0, tk.END)
+    results_text.delete('1.0', END)
+
+# Create buttons for clearing input/output
+get_rates_button = Button(root, font=('arial', 15, 'bold'), text="Get exchange rates", padx=2, pady=2, bg="lightblue", fg="white",
+                command=get_exchange_rates)
+get_rates_button.grid(row=6, column=0)
+
+root.mainloop()
