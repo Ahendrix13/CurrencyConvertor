@@ -20,28 +20,16 @@ headlabel = tk.Label(tops, font=('lato black', 13, 'bold'), text='Currency conve
 headlabel.grid(row=1, column=0, sticky=W)
  
 #create variables for input fields
-CurrencyCode_list = ["INR", "USD", "CAD", "CNY", "DKK", "EUR"]
+CurrencyCode_list = ["INR", "USD", "CAD", "CNY", "DKK", "EUR","JPY", "MXN"]
 from_currency_var = tk.StringVar(root)
 to_currency_var = tk.StringVar(root)
 from_currency_var.set("From currency")
 to_currency_var.set("To currency")
 
-#comparing currency exchange side by side
-def compare_currencies(amount, from_currency, to_currencies):
-    url = 'https://api.exchangerate-api.com/v4/latest/{}'.format(from_currency)
-    response = requests.get(url)
-    data = response.json()
-    result = {}
-    for currency in to_currencies:
-        exchange_rate = data['rates'][currency]
-        converted_amount = round(amount * exchange_rate, 2)
-        result[currency] = converted_amount
-    return result
-
 #Function for real time conversion
  
 def RealTimeCurrencyConversion():
-    amount = amount_entry.get()
+    amount = Entry.get()
     c = CurrencyRates()
     from_currency = from_currency_var.get()
     to_currency = to_currency_var.get()
@@ -88,14 +76,14 @@ Label_1.grid(row=5, column=0, sticky=W)
 Label_1 = Label(root, font=('lato black', 7, 'bold'), text="", padx=2, pady=2, bg="#e6e5e5", fg="black")
 Label_1.grid(row=7, column=0, sticky=W)
  
-FromCurrency_option = tk.OptionMenu(root, from_currency_var, *CurrenyCode_list)
-ToCurrency_option = tk.OptionMenu(root, to_currency, *CurrenyCode_list)
+FromCurrency_option = tk.OptionMenu(root, from_currency_var, *CurrencyCode_list)
+ToCurrency_option = tk.OptionMenu(root, to_currency_var, *CurrencyCode_list)
  
 FromCurrency_option.grid(row=3, column=0, ipadx=45, sticky=E)
 ToCurrency_option.grid(row=4, column=0, ipadx=45, sticky=E)
  
 FromCurrency_field = tk.Entry(root)
-ToCurrency_field.grid(row=2, column=0, ipadx=28, sticky=E)
+FromCurrency_field.grid(row=2, column=0, ipadx=28, sticky=E)
  
 Amount2_field = tk.Entry(root)
 Amount2_field.grid(row=8, column=0, ipadx=31, sticky=E)

@@ -1,5 +1,6 @@
 import tkinter as tk 
 from tkinter import *
+#having sudden issue with importing from forex_python
 from forex_python.converter import CurrencyRates
 import tkinter.messagebox
 
